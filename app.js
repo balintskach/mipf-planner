@@ -78,7 +78,7 @@ function renderTable(table, location) {
 }
 
 function updateShareableUrl() {
-    let url = `${document.location.protocol}//${document.location.host}/share.html?events=${interestedEvents}`
+    let url = `${document.location.href}share.html?events=${interestedEvents}`
     shareableUrlParagraph.setAttribute("href", url)
 }
 
