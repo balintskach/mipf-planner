@@ -1,0 +1,15 @@
+/* background-color: #ec7765;
+background-color: #0e0e0e;
+background-color: #2e4e5d;
+background-color: #fefefe; */
+
+#map {
+    height: 400px;
+    width: 400px;
+}
+
+.table-wrapper {
+    max-height: 500px;
+    overflow: auto;
+    display: inline-block;
+}

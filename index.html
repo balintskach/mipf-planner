@@ -4,10 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Made in Pécs planner</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <p>Hello</p>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <select class="form-select form-select-lg" name="Helyszín" id="location-dropdown">
+                    <option class="dropdown-item" value="ALL">Összes helyszín</option>
+                    <option class="dropdown-item" value="Amper">Amper</option>
+                    <option class="dropdown-item" value="Király Rendezvényház">Király Rendezvényház</option>
+                    <option class="dropdown-item" value="Made in Pécs Café">Made in Pécs Café</option>
+                    <option class="dropdown-item" value="Nappali">Nappali</option>
+                    <option class="dropdown-item" value="Pécsi Est Café">Pécsi Est Café</option>
+                    <option class="dropdown-item" value="Szabadkikötő">Szabadkikötő</option>
+                    <option class="dropdown-item" value="Ti-Ti-Tá">Ti-Ti-Tá</option>
+                    <option class="dropdown-item" value="Trafik">Trafik</option>
+                    <option class="dropdown-item" value="Várárok">Várárok</option>
+                </select>
+                <div  id="events">
+                    <table class="table table-striped table-wrapper">
+                        <thead>
+                            <th scope="col">Időpont</th>
+                            <th scope="col">Fellépő</th>
+                            <th scope="col">Helyszín</th>
+                        </thead>
+                        <tbody id="events-tbody"></tbody>
+                    </table>
+                </div>
 
+            </div>
+            <div class="col">
+
+                <div id="interested">
+                    <table class="table table-striped">
+                        <thead>
+                            <th scope="col">Időpont</th>
+                            <th scope="col">Fellépő</th>
+                            <th scope="col">Helyszín</th>
+                        </thead>
+                        <tbody id="interested-tbody"></tbody>
+                    </table>
+                </div>
+            
+                <a id="shareable-url" href="/share">Megosztás</a>
+            </div>
+        </div>
+
+    </div>
+    <script src="data.js"></script>
     <script src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
 </body>
 </html>
