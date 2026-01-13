@@ -80,7 +80,6 @@ function renderTable(table, location) {
 function updateShareableUrl() {
     let url = `${document.location.protocol}//${document.location.host}/share.html?events=${interestedEvents}`
     shareableUrlParagraph.setAttribute("href", url)
-    shareableUrlParagraph.innerText = "Megosztható oldal generálása"
 }
 
 renderTable(eventsTableBody)

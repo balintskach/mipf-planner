@@ -1,18 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Made in Pécs planner</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="container">
+    <div class="bg-dark-subtle p-5">
+        <div class="container text-center">
+            <h1 class="display-4">Elvesztél a túl sok fellépő között?</h1>
+            <p class="lead">Tervezd meg a napod a Made in Pécs Fesztiválra itt!</p>
+        </div>
+    </div>
+    <div class="container-fluid pt-5" style="max-width: 600px;">
         <div class="row">
-            <div class="col">
-                <select class="form-select form-select-lg" name="Helyszín" id="location-dropdown">
+            <div class="col pt-5">
+                <h2 class="text-center">1. Válaszd ki, hogy melyik koncertek érdekelnek</h2>
+                <select class="form-select form-select-lg mt-5" name="Helyszín" id="location-dropdown">
                     <option class="dropdown-item" value="ALL">Összes helyszín</option>
                     <option class="dropdown-item" value="Amper">Amper</option>
                     <option class="dropdown-item" value="Király Rendezvényház">Király Rendezvényház</option>
@@ -24,39 +34,49 @@
                     <option class="dropdown-item" value="Trafik">Trafik</option>
                     <option class="dropdown-item" value="Várárok">Várárok</option>
                 </select>
-                <div  id="events">
-                    <table class="table table-striped table-wrapper">
+                <div id="events" class="mt-5">
+                    <table class="table table-striped table-wrapper w-auto">
                         <thead>
                             <th scope="col">Időpont</th>
                             <th scope="col">Fellépő</th>
                             <th scope="col">Helyszín</th>
+                            <th scope="col"></th>
                         </thead>
                         <tbody id="events-tbody"></tbody>
                     </table>
                 </div>
 
             </div>
-            <div class="col">
-
-                <div id="interested">
-                    <table class="table table-striped">
+        </div>
+        <div class="row"></div>
+            <div class="col pt-5">
+                <h2 class="text-center">2. Ellenőrizd, hogy minden stimmel</h2>
+                <div id="interested" class="pt-5">
+                    <table class="table table-striped table-wrapper w-auto">
                         <thead>
                             <th scope="col">Időpont</th>
                             <th scope="col">Fellépő</th>
                             <th scope="col">Helyszín</th>
+                            <th scope="col"></th>
                         </thead>
                         <tbody id="interested-tbody"></tbody>
                     </table>
                 </div>
-            
-                <a id="shareable-url" href="/share">Megosztás</a>
             </div>
+        <div class="row">
+            <h2 class="text-center p-5">
+                <a id="shareable-url" href="/share">3. Oszd meg a barátaiddal</a>
+            </h2>
         </div>
+    </div>
 
     </div>
     <script src="data.js"></script>
     <script src="app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
 
 </body>
+
 </html>

@@ -7,13 +7,15 @@ function getEventsFromQueryParam() {
 
 function createEventCard(event) {
     const eventCardTemplate = `
-        <div class="row g-0">
-            <div class="col-md-8">
-            <div class="card-body">
-                <h5 class="card-title">{TITLE_PLACEHOLDER}</h5>
-                <p class="card-text">{LOCATION_PLACEHOLDER}</p>
-                <p class="card-text"><small class="text-body-secondary">{DATE_PLACEHOLDER}</small></p>
-            </div>
+        <div class="card m-3 bg-dark-sublte" style="max-width: 400px;">
+            <div class="row g-0 p-2">
+                <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{TITLE_PLACEHOLDER}</h5>
+                    <p class="card-text">{LOCATION_PLACEHOLDER}</p>
+                    <p class="card-text"><small class="text-body-secondary">{DATE_PLACEHOLDER}</small></p>
+                </div>
+                </div>
             </div>
         </div>`
     
