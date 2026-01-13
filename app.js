@@ -6,6 +6,15 @@ const shareableUrlParagraph = document.querySelector("#shareable-url")
 const locationDropdown = document.querySelector("#location-dropdown")
 locationDropdown.addEventListener("change", selectLocation)
 
+const toastAlert = document.querySelector("#toast-alert")
+const toastText = document.querySelector("#toast-text")
+
+function showToastNotification(message) {
+    const toast = new bootstrap.Toast(toastAlert)
+    toastText.innerText = message
+    toast.show()
+}
+
 function selectLocation() {
     let selectedValue = locationDropdown.options[locationDropdown.selectedIndex].value
     renderTable(eventsTableBody, selectedValue)
@@ -15,6 +24,7 @@ function addEventToInterested(evt) {
     let id = evt.target.attributes["event-id"].value
     if (!interestedEvents.includes(id)) {
         interestedEvents.push(id)
+        showToastNotification(`${events.find(x => x.id == id).name} hozzáadva`)
         localStorage.setItem("interestedEvents", interestedEvents)
     }
     renderTable(interestedEventsTableBody)
@@ -24,8 +34,8 @@ function addEventToInterested(evt) {
 function removeEventFromInterested(evt) {
     let id = evt.target.attributes["event-id"].value
     if (interestedEvents.includes(id)) {
-        localStorage.setItem("interestedEvents", interestedEvents)
         interestedEvents.splice(interestedEvents.indexOf(id), 1)
+        localStorage.setItem("interestedEvents", interestedEvents)
     }
     renderTable(interestedEventsTableBody)
     updateShareableUrl()
@@ -34,31 +44,43 @@ function renderTable(table, location) {
 
     let iconClassList = ["fa-solid", "fa-plus"]
     let action = addEventToInterested
-    let e = events
+    let _events = events
     if (location && location != "ALL") {
-        e = events.filter(x => x.location == location)
+        _events = events.filter(x => x.location == location)
         table.innerHTML = ""
     }
 
     if (table == interestedEventsTableBody) {
-        e = []
+        _events = []
         for (let interestedEventId of interestedEvents) {
             match = events.find(x => x.id == interestedEventId)
-            e.push(match)
+            _events.push(match)
+        }
+
+        for (let e of _events) {
+            console.log(_events)
+            let conflict = _events.filter(x => (x.id != e.id) && (x.location != e.location) && (Math.abs(x.date - e.date) <= 30 * 60 * 1000))
+            if (conflict && conflict.length) {
+                console.log(conflict)
+                e.hasConflict = true
+            } 
         }
         iconClassList = ["fa-solid", "fa-delete-left"]
         action = removeEventFromInterested
         table.innerHTML = ""
     }
 
-    e = e.sort((a, b) => a.date - b.date)
+    _events = _events.sort((a, b) => a.date - b.date)
 
-    for (let event of e) {
+    for (let event of _events) {
 
         let tableRow = document.createElement("tr")
         for (let prop in event) {
+            if (prop == "hasConflict") {
+                tableRow.classList.add("table-danger")
+                continue
+            }
             let tableField = document.createElement("td")
-
             if (prop == "id") {
                 let actionTag = document.createElement("i")
                 actionTag.setAttribute("event-id", event[prop])
