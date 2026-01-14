@@ -1,4 +1,10 @@
-let interestedEvents = localStorage.getItem("interestedEvents")?.split(',') || []
+let interestedEvents = localStorage.getItem("interestedEvents")
+if (interestedEvents && interestedEvents.length) {
+    interestedEvents = interestedEvents.split(',').filter(x => x)
+    console.log(interestedEvents)
+} else {
+    interestedEvents = []
+}
 
 const eventsTableBody = document.querySelector("#events-tbody")
 const interestedEventsTableBody = document.querySelector("#interested-tbody")
@@ -42,60 +48,60 @@ function removeEventFromInterested(evt) {
 }
 function renderTable(table, location) {
 
+    table.innerHTML = ""
     let iconClassList = ["fa-solid", "fa-plus"]
     let action = addEventToInterested
-    let _events = events
+    let _events = structuredClone(events)
+
     if (location && location != "ALL") {
         _events = events.filter(x => x.location == location)
-        table.innerHTML = ""
     }
 
     if (table == interestedEventsTableBody) {
-        _events = []
+        let _interestedEvents = []
         for (let interestedEventId of interestedEvents) {
-            match = events.find(x => x.id == interestedEventId)
-            _events.push(match)
+            match = _events.find(x => x.id == interestedEventId)
+            _interestedEvents.push(match)
         }
 
-        for (let e of _events) {
-            console.log(_events)
-            let conflict = _events.filter(x => (x.id != e.id) && (x.location != e.location) && (Math.abs(x.date - e.date) <= 30 * 60 * 1000))
+        for (let e of _interestedEvents) {
+            let conflict = _interestedEvents.filter(x => (x.id != e.id) && (x.location != e.location) && (Math.abs(x.date - e.date) <= 30 * 60 * 1000))
             if (conflict && conflict.length) {
-                console.log(conflict)
                 e.hasConflict = true
             } 
         }
+        _events = _interestedEvents
         iconClassList = ["fa-solid", "fa-delete-left"]
         action = removeEventFromInterested
-        table.innerHTML = ""
     }
 
     _events = _events.sort((a, b) => a.date - b.date)
 
     for (let event of _events) {
-
-        let tableRow = document.createElement("tr")
-        for (let prop in event) {
-            if (prop == "hasConflict") {
-                tableRow.classList.add("table-danger")
-                continue
+        if (event) {
+            let tableRow = document.createElement("tr")
+            for (let prop in event) {
+                if (prop == "hasConflict") {
+                    tableRow.classList.add("table-danger")
+                    continue
+                }
+                let tableField = document.createElement("td")
+                if (prop == "id") {
+                    let actionTag = document.createElement("i")
+                    actionTag.setAttribute("event-id", event[prop])
+    
+                    actionTag.classList.add(...iconClassList)
+                    actionTag.addEventListener("click", action)
+                    tableField.appendChild(actionTag)
+                } else {
+                    tableField.innerText = prop == "date" ? event[prop].toLocaleTimeString(navigator.language, { hour: "2-digit", minute: "2-digit" }) : event[prop]
+                }
+                tableRow.appendChild(tableField)
+    
             }
-            let tableField = document.createElement("td")
-            if (prop == "id") {
-                let actionTag = document.createElement("i")
-                actionTag.setAttribute("event-id", event[prop])
-
-                actionTag.classList.add(...iconClassList)
-                actionTag.addEventListener("click", action)
-                tableField.appendChild(actionTag)
-            } else {
-                tableField.innerText = prop == "date" ? event[prop].toLocaleTimeString(navigator.language, { hour: "2-digit", minute: "2-digit" }) : event[prop]
-            }
-            tableRow.appendChild(tableField)
-
+    
+            table.append(tableRow)
         }
-
-        table.append(tableRow)
     }
 }
 
