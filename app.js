@@ -6,14 +6,21 @@ if (interestedEvents && interestedEvents.length) {
     interestedEvents = []
 }
 
+let nameValue = localStorage.getItem("name") || ""
+
 const eventsTableBody = document.querySelector("#events-tbody")
 const interestedEventsTableBody = document.querySelector("#interested-tbody")
 const shareableUrlParagraph = document.querySelector("#shareable-url")
+
 const locationDropdown = document.querySelector("#location-dropdown")
 locationDropdown.addEventListener("change", selectLocation)
 
+const nameField = document.querySelector("#name-field")
+nameField.addEventListener("input", getNameFromField)
+
 const toastAlert = document.querySelector("#toast-alert")
 const toastText = document.querySelector("#toast-text")
+
 
 function showToastNotification(message) {
     const toast = new bootstrap.Toast(toastAlert)
@@ -21,6 +28,11 @@ function showToastNotification(message) {
     toast.show()
 }
 
+function getNameFromField() {
+    nameValue = this.value
+    localStorage.setItem("name", nameValue)
+    updateShareableUrl()
+}
 function selectLocation() {
     let selectedValue = locationDropdown.options[locationDropdown.selectedIndex].value
     renderTable(eventsTableBody, selectedValue)
@@ -74,7 +86,7 @@ function renderTable(table, location) {
         iconClassList = ["fa-solid", "fa-delete-left"]
         action = removeEventFromInterested
     }
-
+    
     _events = _events.sort((a, b) => a.date - b.date)
 
     for (let event of _events) {
@@ -89,7 +101,7 @@ function renderTable(table, location) {
                 if (prop == "id") {
                     let actionTag = document.createElement("i")
                     actionTag.setAttribute("event-id", event[prop])
-    
+                    
                     actionTag.classList.add(...iconClassList)
                     actionTag.addEventListener("click", action)
                     tableField.appendChild(actionTag)
@@ -106,8 +118,17 @@ function renderTable(table, location) {
 }
 
 function updateShareableUrl() {
-    let url = `${document.location.href}share.html?events=${interestedEvents}`
+    let url = `${document.location.href}share.html?`
+
+    if (nameField.value) {
+        url += `name=${nameField.value}&`
+    }
+    url += `events=${interestedEvents}`
     shareableUrlParagraph.setAttribute("href", url)
+}
+
+if (nameValue) {
+    nameField.value = nameValue
 }
 
 renderTable(eventsTableBody)

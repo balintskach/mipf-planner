@@ -1,7 +1,7 @@
-function getEventsFromQueryParam() {
-    const queryParams = new URLSearchParams(window.location.search)
-    if (queryParams.has("events")) {
-        return queryParams.get("events").split(',');
+const queryParams = new URLSearchParams(window.location.search)
+function getValueFromQueryParam(param) {
+    if (queryParams.has(param)) {
+        return queryParams.get(param)
     } else return
 }
 
@@ -18,24 +18,30 @@ function createEventCard(event) {
                 </div>
             </div>
         </div>`
-    
+
     cardbox.innerHTML += eventCardTemplate.replace('{TITLE_PLACEHOLDER}', event.name)
-                     .replace('{LOCATION_PLACEHOLDER}', event.location)
-                     .replace('{DATE_PLACEHOLDER}', event.date.toLocaleTimeString(navigator.language, { hour: "2-digit", minute: "2-digit" }))
+        .replace('{LOCATION_PLACEHOLDER}', event.location)
+        .replace('{DATE_PLACEHOLDER}', event.date.toLocaleTimeString(navigator.language, { hour: "2-digit", minute: "2-digit" }))
 }
 
-const interestedEventIds = getEventsFromQueryParam()
+const interestedEventIds = getValueFromQueryParam("events")?.split(",")
+const nameValue = getValueFromQueryParam("name")
 const cardbox = document.querySelector("#cardbox")
-let interestedEvents = []
+const nameField = document.querySelector("#name")
 
-for (const id of interestedEventIds) {
-    const event = events.find(x => x.id == id);
-    interestedEvents.push(event)
+if (interestedEventIds) {
+    let interestedEvents = []
+    for (const id of interestedEventIds) {
+        const event = events.find(x => x.id == id);
+        interestedEvents.push(event)
+    }
+
+    interestedEvents = interestedEvents.sort((a, b) => a.date - b.date)
+    for (const event of interestedEvents) {
+        createEventCard(event)
+    }
+
+    if (nameValue) {
+        nameField.innerText = nameValue
+    }
 }
-
-interestedEvents = interestedEvents.sort((a, b) => a.date - b.date)
-for (const event of interestedEvents) {
-    createEventCard(event)
-}
-
-console.log(interestedEvents)
